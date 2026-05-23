@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!--
+
+  Copyright (c) 2021 PAL Robotics S.L. All rights reserved.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- LED macro: defines a single LED with link and fixed joint -->
+  <xacro:macro name="led" params="name parent x y z">
+    <!-- LED Link -->
+    <link name="${name}_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.01" />
+        <inertia ixx="0.00001" ixy="0.0" ixz="0.0" 
+                 iyy="0.00001" iyz="0.0" izz="0.00001" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <sphere radius="0.01" />
+        </geometry>
+        <material name="RedPlastic" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <sphere radius="0.01" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- LED Joint -->
+    <joint name="${name}_joint" type="fixed">
+      <origin xyz="${x} ${y} ${z}" rpy="0 0 0" />
+      <parent link="${parent}" />
+      <child link="${name}_link" />
+    </joint>
+
+    <!-- Gazebo LED element with light capability -->
+    <gazebo reference="${name}_link">
+      <material>Gazebo/RedGlowPlastic</material>
+    </gazebo>
+
+    <!-- Gazebo light source for the LED - initially off -->
+    <gazebo reference="${name}_link">
+      <light type="point" name="${name}_light">
+        <pose>0 0 0 0 0 0</pose>
+        <diffuse>0.8 0.0 0.0 1.0</diffuse>
+        <specular>0.8 0.0 0.0 1.0</specular>
+        <attenuation>
+          <range>5</range>
+          <linear>0.1</linear>
+          <constant>0.5</constant>
+          <quadratic>0.01</quadratic>
+        </attenuation>
+        <cast_shadows>false</cast_shadows>
+      </light>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- All base LEDs macro -->
+  <xacro:macro name="all_leds" params="parent">
+    <!-- Front LEDs -->
+    <xacro:led name="led_front_left"  parent="${parent}" x="0.35"  y="0.15"  z="0.10" />
+    <xacro:led name="led_front_right" parent="${parent}" x="0.35"  y="-0.15" z="0.10" />
+    
+    <!-- Rear LEDs -->
+    <xacro:led name="led_rear_left"   parent="${parent}" x="-0.35" y="0.15"  z="0.10" />
+    <xacro:led name="led_rear_right"  parent="${parent}" x="-0.35" y="-0.15" z="0.10" />
+  </xacro:macro>
+
+</robot>

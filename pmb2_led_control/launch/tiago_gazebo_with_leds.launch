@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- 
+  Example launch file for running TiAGo with LED control in Gazebo
+  
+  Usage:
+    roslaunch pmb2_led_control tiago_gazebo_with_leds.launch
+  -->
+
+  <!-- Start Gazebo -->
+  <include file="$(find tiago_gazebo)/launch/tiago_gazebo.launch">
+    <arg name="world" default="empty_world"/>
+  </include>
+
+  <!-- LED Control Node -->
+  <node name="pmb2_led_control_node" pkg="pmb2_led_control" type="pmb2_led_control_node" output="screen">
+    <remap from="/pmb2_led_control_node/set_leds" to="/pmb2/set_leds"/>
+  </node>
+
+  <!-- Rviz (optional) -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pmb2_led_control)/config/display.rviz" required="false"/>
+
+</launch>

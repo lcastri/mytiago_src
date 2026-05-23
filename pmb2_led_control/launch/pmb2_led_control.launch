@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- PMB2 LED Control Node -->
+  <node name="pmb2_led_control_node" pkg="pmb2_led_control" type="pmb2_led_control_node" output="screen">
+    <remap from="/pmb2_led_control_node/set_leds" to="/pmb2/set_leds"/>
+  </node>
+</launch>
