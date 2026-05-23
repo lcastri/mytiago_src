@@ -78,15 +78,9 @@ public:
         srv.request.diffuse.b = 0.0;
         srv.request.diffuse.a = 1.0;
         
-        srv.request.specular.r = 0.8;
-        srv.request.specular.g = 0.0;
-        srv.request.specular.b = 0.0;
-        srv.request.specular.a = 1.0;
-        
         srv.request.attenuation_constant = 0.5;
         srv.request.attenuation_linear = 0.1;
         srv.request.attenuation_quadratic = 0.01;
-        srv.request.range = 5.0;
         
         if (gazebo_light_client_.call(srv)) {
             ROS_DEBUG("LED %s turned ON", led_name.c_str());
@@ -105,15 +99,9 @@ public:
         srv.request.diffuse.b = 0.0;
         srv.request.diffuse.a = 0.0;
         
-        srv.request.specular.r = 0.0;
-        srv.request.specular.g = 0.0;
-        srv.request.specular.b = 0.0;
-        srv.request.specular.a = 0.0;
-        
         srv.request.attenuation_constant = 0.5;
         srv.request.attenuation_linear = 0.1;
         srv.request.attenuation_quadratic = 0.01;
-        srv.request.range = 5.0;
         
         if (gazebo_light_client_.call(srv)) {
             ROS_DEBUG("LED %s turned OFF", led_name.c_str());
